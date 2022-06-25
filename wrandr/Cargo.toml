@@ -1,0 +1,9 @@
+[package]
+name = "wrandr"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+env_logger = "0.9.0"
+wayland-client = { git = "https://github.com/Smithay/wayland-rs.git" }
+sctk = { package = "smithay-client-toolkit", git = "https://github.com/Smithay/client-toolkit.git", branch = "rework-wayland-rs-0.30" }
