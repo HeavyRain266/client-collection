@@ -1,6 +1,4 @@
-// TODO: Handle output management
-
-#![allow(unused)]
+// TODO: Handle output management?
 
 use sctk::{
     output::{
@@ -12,21 +10,19 @@ use sctk::{
         RegistryState,
         ProvidesRegistryState
     },
-    reexports::{
-        client::{
-            protocol::wl_output,
-            Connection, QueueHandle,
-        }
+    reexports::client::{
+        protocol::wl_output,
+        Connection, QueueHandle,
     },
     delegate_registry, delegate_output, registry_handlers,
 };
 
-struct Randr {
+struct WlRandr {
     registry_state: RegistryState,
     output_state: OutputState
 }
 
-impl ProvidesRegistryState for Randr {
+impl ProvidesRegistryState for WlRandr {
     fn registry(&mut self) -> &mut RegistryState {
         &mut self.registry_state
     }
@@ -36,9 +32,9 @@ impl ProvidesRegistryState for Randr {
     }
 }
 
-delegate_registry!(Randr);
+delegate_registry!(WlRandr);
 
-impl OutputHandler for Randr {
+impl OutputHandler for WlRandr {
     fn output_state(&mut self) -> &mut OutputState {
         &mut self.output_state
     }
@@ -68,7 +64,7 @@ impl OutputHandler for Randr {
     }
 }
 
-delegate_output!(Randr);
+delegate_output!(WlRandr);
 
 fn print_info(info: &OutputInfo) {
     println!("model: {} [", info.model);
@@ -109,7 +105,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let output_delegate = OutputState::new();
 
-    let mut list_outputs = Randr {
+    let mut list_outputs = WlRandr {
         registry_state,
         output_state: output_delegate
     };
